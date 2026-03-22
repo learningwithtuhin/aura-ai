@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aura AI — Chat</title>
+  <link rel="stylesheet" href="/static/css/shared.css"/>
+  <link rel="stylesheet" href="/static/css/chat.css"/>
+</head>
+<body>
+
+<div class="app-shell" id="appShell">
+
+  <!-- ════════════════════════════════════
+       SIDEBAR
+  ════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Brand -->
+    <div class="sidebar-brand">
+      <div class="brand-mark">✦</div>
+      <div class="brand-name">Aura</div>
+      <div class="brand-version">v2</div>
+      <button class="sidebar-toggle" id="sidebarToggle" title="Collapse sidebar">‹</button>
+    </div>
+
+    <!-- New chat -->
+    <button class="new-chat-btn" id="newChatBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      <span class="btn-text">New conversation</span>
+    </button>
+
+    <!-- Chat mode pills -->
+    <div class="chat-modes" id="chatModes">
+      <div class="mode-pill active" data-mode="chat">💬 Chat</div>
+      <div class="mode-pill" data-mode="code">💻 Code</div>
+      <div class="mode-pill" data-mode="debug">🐛 Debug</div>
+      <div class="mode-pill" data-mode="explain">📖 Explain</div>
+    </div>
+
+    <!-- History -->
+    <p class="sidebar-section-label">Conversations</p>
+    <div class="chat-list" id="chatList"></div>
+
+    <!-- User strip -->
+    <div class="sidebar-user">
+      <div class="sidebar-user-avi" id="userAvi">U</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name" id="sidebarUserName">Loading…</div>
+        <div class="sidebar-user-email" id="sidebarUserEmail"></div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ════════════════════════════════════
+       MAIN PANEL
+  ════════════════════════════════════ -->
+  <div class="main-panel">
+
+    <!-- ── Topbar ── -->
+    <nav class="topbar">
+
+      <!-- Mobile menu -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Open sidebar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <span class="topbar-title" id="topbarTitle">New Conversation</span>
+
+      <!-- Mode pills (desktop) -->
+      <div class="topbar-mode" id="topbarMode">
+        <button class="topbar-mode-btn active" data-mode="chat">Chat</button>
+        <button class="topbar-mode-btn" data-mode="code">Code</button>
+        <button class="topbar-mode-btn" data-mode="debug">Debug</button>
+        <button class="topbar-mode-btn" data-mode="explain">Explain</button>
+      </div>
+
+      <!-- Model selector -->
+      <div class="model-select-wrap">
+        <select id="modelSelect" title="Select AI model">
+          <option value="llama-3.3-70b-versatile">LLaMA 3.3 70B</option>
+          <option value="llama-3.1-8b-instant">LLaMA 3.1 8B ⚡</option>
+          <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+          <option value="gemma2-9b-it">Gemma 2 9B</option>
+        </select>
+      </div>
+
+      <!-- Live chip -->
+      <div class="live-chip">
+        <span class="live-dot"></span> Live
+      </div>
+
+      <!-- Dark/Light toggle -->
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+        🌙
+      </button>
+
+      <!-- User avatar dropdown -->
+      <div class="user-menu">
+        <button class="user-avi-btn" id="userAviBtn">U</button>
+        <div class="user-dropdown" id="userDropdown">
+          <div class="dropdown-header">
+            <div class="dropdown-name" id="dropdownName">User</div>
+            <div class="dropdown-email" id="dropdownEmail">user@example.com</div>
+          </div>
+          <div class="dropdown-item">
+            <span>⚙️</span> Settings
+          </div>
+          <div class="dropdown-item">
+            <span>📊</span> Usage
+          </div>
+          <div class="dropdown-item danger" id="logoutBtn">
+            <span>🚪</span> Sign out
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
+    <!-- ── Chat body ── -->
+    <div class="chat-body" id="chatBody">
+
+      <!-- Welcome screen -->
+      <div class="welcome-screen" id="welcome">
+        <div class="welcome-orb">✦</div>
+        <p class="welcome-greeting">Hello, Explorer</p>
+        <h1 class="welcome-title">What can I help<br/>you build today?</h1>
+        <p class="welcome-sub">
+          Powered by open-source LLMs via Groq. Ask anything —
+          code, debug, explain, or just have a conversation.
+        </p>
+        <div class="prompt-grid">
+          <div class="prompt-card" data-prompt="Write a Python FastAPI server with JWT authentication and user routes.">
+            <div class="prompt-card-icon">🐍</div>
+            <div class="prompt-card-title">Generate code</div>
+            <div class="prompt-card-hint">FastAPI server with JWT auth</div>
+          </div>
+          <div class="prompt-card" data-prompt="Debug this code and explain what's wrong: [paste your code here]">
+            <div class="prompt-card-icon">🐛</div>
+            <div class="prompt-card-title">Fix a bug</div>
+            <div class="prompt-card-hint">Paste code and find the issue</div>
+          </div>
+          <div class="prompt-card" data-prompt="Explain how transformers work in machine learning, with simple examples.">
+            <div class="prompt-card-icon">🤖</div>
+            <div class="prompt-card-title">Learn AI concepts</div>
+            <div class="prompt-card-hint">Transformers & attention explained</div>
+          </div>
+          <div class="prompt-card" data-prompt="What are the key differences between REST, GraphQL, and gRPC APIs?">
+            <div class="prompt-card-icon">⚖️</div>
+            <div class="prompt-card-title">Compare options</div>
+            <div class="prompt-card-hint">REST vs GraphQL vs gRPC</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Messages injected here -->
+      <div class="messages-area" id="messagesArea"></div>
+
+      <!-- Scroll to bottom -->
+      <button class="scroll-btn" id="scrollBtn" title="Scroll to bottom">↓</button>
+
+    </div><!-- end .chat-body -->
+
+    <!-- ── Input area ── -->
+    <div class="input-area">
+      <div class="input-box">
+        <textarea
+          id="msgInput"
+          placeholder="Ask anything or generate code… (Shift+Enter for newline)"
+          rows="1"
+          maxlength="8000"
+          aria-label="Message"
+        ></textarea>
+        <div class="input-toolbar">
+          <button class="attach-btn" title="Attach file (coming soon)">📎</button>
+          <button class="send-btn" id="sendBtn" disabled aria-label="Send">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <p class="input-hint">
+        Aura uses Groq-hosted open-source models — responses may vary.
+        Press Enter to send · Shift+Enter for new line.
+      </p>
+    </div>
+
+  </div><!-- end .main-panel -->
+</div>
+
+<script src="/static/js/chat.js"></script>
+</body>
+</html>

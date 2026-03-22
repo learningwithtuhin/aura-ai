@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Aura AI</title>
+  <link rel="stylesheet" href="/static/css/shared.css"/>
+</head>
+<body>
+<div class="auth-shell">
+
+  <!-- Left panel -->
+  <div class="auth-mural">
+    <div class="mural-logo">
+      <div class="mural-logo-mark">✦</div>
+      <div class="mural-logo-text">Aura AI</div>
+    </div>
+    <h2 class="mural-headline">Your <span>intelligent</span><br/>AI workspace</h2>
+    <p class="mural-sub">
+      Chat, code, debug, and learn — powered by state-of-the-art
+      open-source models via Groq's lightning-fast inference.
+    </p>
+    <div class="mural-pills">
+      <div class="mural-pill">
+        <span class="mural-pill-icon">⚡</span>
+        <span class="mural-pill-text">Groq-powered — blazing fast responses</span>
+      </div>
+      <div class="mural-pill">
+        <span class="mural-pill-icon">🔒</span>
+        <span class="mural-pill-text">Auth stored locally — privacy first</span>
+      </div>
+      <div class="mural-pill">
+        <span class="mural-pill-icon">🌙</span>
+        <span class="mural-pill-text">Dark & light mode included</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right form -->
+  <div class="auth-form-panel">
+    <div class="auth-card">
+      <h1 class="auth-card-title">Welcome back</h1>
+      <p class="auth-card-sub">Sign in to continue to Aura AI</p>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="email">Email address</label>
+          <input class="field-input" type="email" id="email"
+            placeholder="you@example.com" autocomplete="email"/>
+          <span class="field-error" id="emailError"></span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="password">Password</label>
+          <input class="field-input" type="password" id="password"
+            placeholder="••••••••" autocomplete="current-password"/>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+        <button type="submit" class="auth-btn">Sign in →</button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <button type="button" class="auth-btn secondary" onclick="demoLogin()">
+        ✨ Try demo account
+      </button>
+
+      <p class="auth-switch">Don't have an account? <a href="/signup">Create one free</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/js/auth.js"></script>
+<script>
+  initLogin();
+  function demoLogin() {
+    const DEMO = { name:"Demo User", email:"demo@aura.ai", password:"demo123" };
+    const users = JSON.parse(localStorage.getItem("aura_users") || "[]");
+    if (!users.find(u => u.email === DEMO.email)) {
+      users.push({ ...DEMO, createdAt: new Date().toISOString() });
+      localStorage.setItem("aura_users", JSON.stringify(users));
+    }
+    document.getElementById("email").value = DEMO.email;
+    document.getElementById("password").value = DEMO.password;
+    document.getElementById("loginForm").requestSubmit();
+  }
+</script>
+</body>
+</html>

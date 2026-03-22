@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up — Aura AI</title>
+  <link rel="stylesheet" href="/static/css/shared.css"/>
+</head>
+<body>
+<div class="auth-shell">
+
+  <!-- Left panel -->
+  <div class="auth-mural">
+    <div class="mural-logo">
+      <div class="mural-logo-mark">✦</div>
+      <div class="mural-logo-text">Aura AI</div>
+    </div>
+    <h2 class="mural-headline">Start building<br/><span>smarter</span> today</h2>
+    <p class="mural-sub">
+      Create your free account and get instant access to
+      LLaMA, Mixtral, and Gemma — all in one beautiful interface.
+    </p>
+    <div class="mural-pills">
+      <div class="mural-pill">
+        <span class="mural-pill-icon">🆓</span>
+        <span class="mural-pill-text">100% free — no credit card needed</span>
+      </div>
+      <div class="mural-pill">
+        <span class="mural-pill-icon">🤖</span>
+        <span class="mural-pill-text">LLaMA 3.3 · Mixtral · Gemma 2</span>
+      </div>
+      <div class="mural-pill">
+        <span class="mural-pill-icon">💾</span>
+        <span class="mural-pill-text">Chat history saved in your browser</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right form -->
+  <div class="auth-form-panel">
+    <div class="auth-card">
+      <h1 class="auth-card-title">Create account</h1>
+      <p class="auth-card-sub">Join Aura AI — takes less than 30 seconds</p>
+
+      <form id="signupForm" novalidate>
+        <div class="field">
+          <label class="field-label" for="name">Full name</label>
+          <input class="field-input" type="text" id="name"
+            placeholder="Ada Lovelace" autocomplete="name"/>
+          <span class="field-error" id="nameError"></span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="email">Email address</label>
+          <input class="field-input" type="email" id="email"
+            placeholder="you@example.com" autocomplete="email"/>
+          <span class="field-error" id="emailError"></span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="password">Password</label>
+          <input class="field-input" type="password" id="password"
+            placeholder="At least 6 characters" autocomplete="new-password"/>
+          <span class="field-error" id="passwordError"></span>
+        </div>
+        <div class="field">
+          <label class="field-label" for="confirm">Confirm password</label>
+          <input class="field-input" type="password" id="confirm"
+            placeholder="Repeat your password" autocomplete="new-password"/>
+          <span class="field-error" id="confirmError"></span>
+        </div>
+        <button type="submit" class="auth-btn">Create account →</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="/login">Sign in</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/js/auth.js"></script>
+<script>initSignup();</script>
+</body>
+</html>
