@@ -14,7 +14,7 @@ app = Flask(__name__)
 # ─── GROQ API KEY ──────────────────────────────────────────────────────────────
 # Get your FREE key at: https://console.groq.com
 # Sign up → API Keys → Create API Key → paste it below
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 # Groq API endpoint
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
