@@ -14,7 +14,7 @@ app = Flask(__name__)
 # ─── GROQ API KEY ──────────────────────────────────────────────────────────────
 # Get your FREE key at: https://console.groq.com
 # Sign up → API Keys → Create API Key → paste it below
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 
 # Groq API endpoint
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
@@ -141,6 +141,10 @@ def api_chat():
     return jsonify(reply=reply, error=None)
 
 
+# if __name__ == "__main__":
+#     print("\n🌟  Aura AI (Groq) running → http://127.0.0.1:5000\n")
+#     app.run(debug=True, port=5000)
 if __name__ == "__main__":
     print("\n🌟  Aura AI (Groq) running → http://127.0.0.1:5000\n")
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
